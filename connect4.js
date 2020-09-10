@@ -8,7 +8,7 @@
 const WIDTH = 7;
 //MH:Height of the column
 const HEIGHT = 6;
-
+//MH: Sets Active player, starts at player 1
 let currPlayer = 1; // active player: 1 or 2
 const board = []; // array of rows, each row is array of cells  (board[y][x])
 
@@ -69,10 +69,10 @@ const makeHtmlBoard = () => {
 };
 
 /** findSpotForCol: given column x, return top empty y (null if filled) */
-
+//MH Find column, the row is x
 const findSpotForCol = (x) => {
 	// TODO: write the real version of this, rather than always returning 0
-	//MH:
+	//MH: Loops through the value of the column, checks if column is filled
 	for (let y = HEIGHT - 1; y >= 0; y--) {
 		if (!board[y][x]) {
 			return y;
@@ -88,9 +88,9 @@ const placeInTable = (y, x) => {
 	const chip = document.createElement('div');
 	chip.classList.add('piece');
 	chip.classList.add(`p${currPlayer}`);
-	//Uses the x and y axis of array to determine location
+	//MH:Uses the x and y axis of array to determine location
 	const location = document.getElementById(`${y}-${x}`);
-	//Adds piece to current location
+	//MH:Adds piece to current location
 	location.append(chip);
 };
 
@@ -117,6 +117,7 @@ const handleClick = (evt) => {
 	// place piece in board and add to HTML table
 	// TODO: add line to update in-memory board
 	//Adds piece of currentplayer to location
+	//MH: Places the piece in the current location
 	board[y][x] = currPlayer;
 	placeInTable(y, x);
 
@@ -128,7 +129,7 @@ const handleClick = (evt) => {
 
 	// check for tie
 	// TODO: check if all cells in board are filled; if so call, call endGame
-	//MH: If all cells in all rows are truthy the game is a tie
+	//MH: If all cells in all rows are truthy(hold a value) the game is a tie
 	if (board.every((row) => row.every((cell) => cell))) {
 		return endGame('Tie!');
 	}
@@ -162,13 +163,14 @@ const checkForWin = () => {
 			var diagDR = [ [ y, x ], [ y + 1, x + 1 ], [ y + 2, x + 2 ], [ y + 3, x + 3 ] ];
 			// MH:Diagonal Down Condition
 			var diagDL = [ [ y, x ], [ y + 1, x - 1 ], [ y + 2, x - 2 ], [ y + 3, x - 3 ] ];
-			//If any of these conditions are Truthy Return true
+			//MH:If any of these conditions are Truthy Return true
 			if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
 				return true;
 			}
 		}
 	}
 };
-
+//Creates Board Data
 makeBoard();
+//Creates Board Visually
 makeHtmlBoard();
